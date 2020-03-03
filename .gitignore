@@ -1,0 +1,3 @@
+*.pyc
+trunk/db.sqlite3
+trunk/trunk/__pycache__/

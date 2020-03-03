@@ -1,0 +1,6 @@
+Django>=2.2,<2.3
+croniter>=0.3,<0.4
+Django-filter>=2.2,<2.3
+djangorestframework-filters==1.0.0.dev0
+django-guardian>=2.1,<2.2
+djangorestframework>=3.10,<3.11
