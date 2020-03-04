@@ -94,6 +94,10 @@ And we can remove "#" from this inspection.cron_format to enable it.
 
 .. code-block:: python
 
+    Python 3.7.5 (default, Dec  8 2019, 11:41:26) 
+    Type 'copyright', 'credits' or 'license' for more information
+    IPython 7.13.0 -- An enhanced Interactive Python. Type '?' for help.
+
     In [1]: from crontab_monitor.models import *
     In [2]: insp = Inspection.objects.get(name='check_outside_web',
        ...:                               note='An example for showing a well cron function')
