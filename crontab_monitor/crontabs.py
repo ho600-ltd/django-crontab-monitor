@@ -7,13 +7,13 @@ from crontab_monitor.models import SelectOption, single_entry_point
 
 def single_entry_point_of_crontab(*args, **kw):
     lg = logging.getLogger('django-crontab-monitor')
-    kw['executed_from'] = 'crontab'
+    kw['executed_from'] = kw.get('executed_from', 'crontab')
     single_entry_point(*args, **kw)
     message = 'Done from single_entry_point_of_crontab'
     lg.info(message)
 
 
-def check_outside_web(alert_log, web_urls='https://www.google.com/|https://www.ho600.com/', **kw):
+def check_outside_web(alert_log, *args, web_urls='https://www.google.com/|https://www.ho600.com/', **kw):
     lg = logging.getLogger('django-crontab-monitor')
     lg.debug("alert_log id: {}".format(alert_log.id))
     lg.debug("web_urls: {}".format(web_urls))
@@ -21,6 +21,8 @@ def check_outside_web(alert_log, web_urls='https://www.google.com/|https://www.h
     title = _('No alarm, just logging')
     status = SelectOption.objects.get(swarm='alert-log-status', value='LOG')
     mail_body = "Executed from {}\n".format(kw.get('executed_from', '__none__'))
+    mail_body += "args: {}\n".format(args)
+    mail_body += "kw: {}\n".format(kw)
     for url in web_urls:
         lg.debug("url: {}".format(url))
         try:
@@ -28,12 +30,12 @@ def check_outside_web(alert_log, web_urls='https://www.google.com/|https://www.h
         except Exception as e:
             status = SelectOption.objects.get(swarm='alert-log-status', value='ALARM')
             title = _('Alarm on {url}').format(url=url)
-            mail_body = str(e)
+            mail_body += 'Exception: {}\n'.format(e)
         else:
             if res.status != 200:
                 title = _('Alarm on {url}').format(url=url)
                 status = SelectOption.objects.get(swarm='alert-log-status', value='ALARM')
-                mail_body = res.read()
+                mail_body += '{} Error: {}\n'.format(res.status, res.read())
         if status.value != 'LOG':
             break
     for receiver in alert_log.inspection.get_receive_notification_users():

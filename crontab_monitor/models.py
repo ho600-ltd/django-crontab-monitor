@@ -129,6 +129,7 @@ def single_entry_point(*args, **kw):
                           mail_body="executing",
                           object_id_list="")
             al.save()
+            args = [al] + list(args)
 
             kwargs = kw
             for kv in inspection.kwargs.split(','):
@@ -140,6 +141,6 @@ def single_entry_point(*args, **kw):
             for p in packages[1:]:
                 function = getattr(function, p)
             job = CrontabJob(execute=function,
-                             args=[al],
+                             args=args,
                              kwargs=kwargs)
             job.start()

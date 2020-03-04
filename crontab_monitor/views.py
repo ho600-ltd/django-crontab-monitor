@@ -86,7 +86,8 @@ class AlertLogModelViewSet(viewsets.ModelViewSet):
 
 def single_entry_point_of_view(request, *args, **kw):
     lg = logging.getLogger('django-crontab-monitor')
-    kw['executed_from'] = 'view'
+    kw['request'] = request
+    kw['executed_from'] = kw.get('executed_from', 'view')
     single_entry_point(*args, **kw)
     message = 'Done from single_entry_point_of_view'
     lg.info(message)
