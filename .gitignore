@@ -1,3 +1,4 @@
 *.pyc
+docs/_build/
 trunk/db.sqlite3
 trunk/trunk/__pycache__/
