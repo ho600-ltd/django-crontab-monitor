@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import logging, urllib
+import logging, urllib, time
 from django.utils.translation import gettext as _
 from django.utils.timezone import now
 from crontab_monitor.models import SelectOption, single_entry_point
@@ -23,6 +23,7 @@ def check_outside_web(alert_log, *args, web_urls='https://www.google.com/|https:
     mail_body = "Executed from {}\n".format(kw.get('executed_from', '__none__'))
     mail_body += "args: {}\n".format(args)
     mail_body += "kw: {}\n".format(kw)
+    t0 = time.time()
     for url in web_urls:
         lg.debug("url: {}".format(url))
         try:
@@ -32,7 +33,11 @@ def check_outside_web(alert_log, *args, web_urls='https://www.google.com/|https:
             title = _('Alarm on {url}').format(url=url)
             mail_body += 'Exception: {}\n'.format(e)
         else:
-            if res.status != 200:
+            if res.status == 200:
+                t1 = time.time()
+                mail_body += 'Duration of {}: {} seconds\n'.format(url, t1-t0)
+                t0 = t1
+            else:
                 title = _('Alarm on {url}').format(url=url)
                 status = SelectOption.objects.get(swarm='alert-log-status', value='ALARM')
                 mail_body += '{} Error: {}\n'.format(res.status, res.read())
