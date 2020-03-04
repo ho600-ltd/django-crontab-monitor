@@ -2,6 +2,8 @@
 import re
 from setuptools import setup, find_packages
 
+from crontab_monitor.__version__ import VERSION
+
 try:
     REQUIREMENTS = open('requirements.txt').read()
 except:
@@ -12,7 +14,7 @@ install_requires = [r for r in REQUIREMENTS.split('\n') if r and not re.match('^
 setup(
     name='django-crontab-monitor',
     description='''Store crontab-based functions in Django Model so that users can add/disable/delete crontab-based functions on API service rather than login the server to deal with system crontab configuration.''',
-    version='0.0.1',
+    version=VERSION,
     author='ho600 Ltd.',
     author_email='django-crontab-monitor@ho600.com',
     license='MIT',
