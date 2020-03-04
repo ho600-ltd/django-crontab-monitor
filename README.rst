@@ -1,7 +1,9 @@
 django-crontab-monitor
 ===============================================================================
 
-.. figure:: https://readthedocs.org/projects/django-crontab-monitor/badge/?version=master
+.. image:: https://readthedocs.org/projects/django-crontab-monitor/badge/?version=master
+    :target: https://django-crontab-monitor.readthedocs.io/en/latest/?badge=master
+    :alt: Documentation Status
 
 Overview
 -------------------------------------------------------------------------------
