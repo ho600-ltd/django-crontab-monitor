@@ -10,10 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
-import os
+import os, sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+CRONTAB_MONITOR_DIR = os.path.dirname(BASE_DIR)
+sys.path.insert(0, CRONTAB_MONITOR_DIR)
 
 
 # Quick-start development settings - unsuitable for production
@@ -37,6 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'guardian',
+    'rest_framework',
+    'django_filters',
+    'rest_framework_filters',
+    'django_crontab',
+    'crontab_monitor',
 ]
 
 MIDDLEWARE = [
@@ -118,3 +127,44 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django-crontab-monitor': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    }
+}
+
+
+# >>> Django-RESTFRAMEWORK
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_FILTER_BACKENDS': ('rest_framework_filters.backends.RestFrameworkFilterBackend', ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+        #'rest_framework.permissions.DjangoModelPermissions',
+    ]
+}
+# <<< Django-RESTFRAMEWORK
+
+CRONTAB_LOCK_JOBS = True
+CRONTAB_PYTHON_EXECUTABLE = '/Users/hoamon/VSCProjects/django-crontab-monitor.py3env/bin/python3'
+CRONTAB_DJANGO_MANAGE_PATH = os.path.join(BASE_DIR, 'manage.py')
+CRONTAB_DJANGO_PROJECT_NAME = ROOT_URLCONF
+CRONTAB_COMMAND_PREFIX = 'cd %s && ' % BASE_DIR
+CRONJOBS = [
+    ('* * * * *', 'crontab_monitor.crontabs.single_entry_point_of_crontab',
+     ['arg1'], {'key1': 'value1'}),
+]
