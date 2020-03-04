@@ -114,7 +114,7 @@ And we can remove "#" from this inspection.cron_format to enable it.
 If you want to disable this example crontab-based function, then just put a prefix "#"
 in inspection.cron_format.
 
-Futher Document
+Further Document
 -------------------------------------------------------------------------------
 
 Please go to http://django-crontab-monitor.readthedocs.io/ or https://django-crontab-monitor.rtfd.io to read the well format html.
