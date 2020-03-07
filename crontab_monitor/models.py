@@ -103,7 +103,9 @@ def single_entry_point(*args, **kw):
 
     lg = logging.getLogger('django-crontab-monitor')
     lg.debug('NOW: {}; BASE: {}'.format(NOW, BASE))
-    for inspection in Inspection.objects.exclude(cron_format__startswith='#').filter(function_option__value__contains='.crontabs.'):
+    for inspection in Inspection.objects.exclude(cron_format__startswith='#'
+                                                ).filter(function_option__value__contains='.crontabs.'
+                                                        ).order_by('id'):
         if not croniter.is_valid(inspection.cron_format):
             lg.error("Inspection(id: {})'s cron_format Error: {}".format(inspection.id, inspection.cron_format))
             continue
