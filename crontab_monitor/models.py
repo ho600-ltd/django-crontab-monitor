@@ -133,8 +133,9 @@ def single_entry_point(*args, **kw):
 
             kwargs = kw
             for kv in inspection.kwargs.split(','):
-                k, v = kv.split('=')
-                kwargs[k] = v
+                if '=' in kv:
+                    k, v = kv.split('=')
+                    kwargs[k] = v
             
             packages = inspection.function_option.value.split('.')
             function = __import__(".".join(packages[:-1]))
