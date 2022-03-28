@@ -14,8 +14,8 @@ from crontab_monitor import CrontabJob
 
 
 class SelectOption(models.Model):
-    swarm = models.CharField(verbose_name='Swarm Name', max_length=64)
-    value = models.CharField(verbose_name='Value', max_length=255)
+    swarm = models.CharField(verbose_name='Swarm Name', max_length=64, db_index=True)
+    value = models.CharField(verbose_name='Value', max_length=255, db_index=True)
 
 
 
@@ -30,8 +30,8 @@ class SelectOption(models.Model):
 
 
 class Inspection(models.Model):
-    cron_format = models.CharField(max_length=128)
-    name = models.CharField(max_length=64)
+    cron_format = models.CharField(max_length=128, db_index=True)
+    name = models.CharField(max_length=64, db_index=True)
     function_option = models.ForeignKey(SelectOption, on_delete=models.CASCADE)
     function_note = models.TextField()
     kwargs = models.TextField()
@@ -81,9 +81,9 @@ class AlertLog(models.Model):
     executed_end_time = models.DateTimeField(null=True)
     update_time = models.DateTimeField(auto_now=True)
     inspection = models.ForeignKey(Inspection, on_delete=models.CASCADE)
-    executed_time_ymdhm = models.CharField(max_length=12)
+    executed_time_ymdhm = models.CharField(max_length=12, db_index=True)
     status = models.ForeignKey(SelectOption, on_delete=models.CASCADE) #LOG/ALARM/CONTACTED/FIXED
-    title = models.CharField(max_length=255) #INFO: vangw, return_code, fails count
+    title = models.CharField(max_length=255, db_index=True) #INFO: vangw, return_code, fails count
     receivers = models.ManyToManyField(User)
     mail_body = models.TextField()
     objects_content_type = models.ForeignKey(ContentType, null=True, on_delete=models.CASCADE)
