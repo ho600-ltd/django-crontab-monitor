@@ -6,7 +6,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.utils.timezone import utc, now
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from guardian.shortcuts import get_users_with_perms
 
 from crontab_monitor import CrontabJob
