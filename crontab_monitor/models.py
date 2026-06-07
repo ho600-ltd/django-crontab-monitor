@@ -5,7 +5,8 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
-from django.utils.timezone import utc, now
+utc = datetime.timezone.utc
+from django.utils.timezone import now
 from django.utils.translation import gettext as _
 from guardian.shortcuts import get_users_with_perms
 
