@@ -1,4 +1,4 @@
-Django>=3.2,<4.3
+Django>=5.2,<5.3
 croniter>=0.3,<1.5
 Django-filter>=23.3,<24
 djangorestframework-filters>=1.0.0.dev0,<1.0.0.dev3
